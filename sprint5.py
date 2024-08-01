@@ -1,5 +1,5 @@
 """
-ID 116525289
+ID 116559040
 Модуль для расшифровки сжатых инструкций для марсохода.
 
 Этот модуль включает функцию для расшифровки строки, содержащей
@@ -12,8 +12,8 @@ ID 116525289
   расшифровывает сжатую строку инструкций.
 
 Пример использования:
-coded_string = "3[с]2[в]ш"
-print(decode_instructions(coded_string))  # Вывод: "сссввш"
+coded_string = '3[с]2[в]ш'
+print(decode_instructions(coded_string))  # Вывод: 'сссввш'
 """
 
 
@@ -27,23 +27,23 @@ def decode_instructions(coded_string: str) -> str:
     Возвращает:
     str: Полная строка инструкций.
     """
-    stack: list[tuple[str, int]] = []  # Стек для хранения строк и чисел
-    current_num: int = 0  # Текущее число повторений
-    current_string: str = ""  # Текущая расшифрованная строка
+    stack: list[tuple[str, str]] = []  # Стек для хранения строк и чисел
+    current_num: str = ''  # Текущее число повторений
+    current_string: str = ''  # Текущая расшифрованная строка
 
     for char in coded_string:
         if '0' <= char <= '9':
             # Строим число, если текущий символ - цифра
-            current_num = current_num * 10 + int(char)
+            current_num += char
         elif char == '[':
             # Сохраняем текущую строку и число в стек и обнуляем их
             stack.append((current_string, current_num))
-            current_string = ""
-            current_num = 0
+            current_string = ''
+            current_num = ''
         elif char == ']':
             # Извлекаем строку и число из стека, повторяем текущую строку
             prev_string, num = stack.pop()
-            current_string = prev_string + num * current_string
+            current_string = prev_string + int(num) * current_string
         else:
             # Добавляем текущий символ к строке, если это буква
             current_string += char
